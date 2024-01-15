@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Input from "../Components/Input";
-import Select from "../Components/Select";
-import AutoComplete from "../Components/AutoComplete";
-import Button from "../Components/Button";
-import Ahref from "../Components/Link";
+import Input from "../../Components/Input";
+import Select from "../../Components/Select";
+import AutoComplete from "../../Components/AutoComplete";
+import Button from "../../Components/Button";
+import Ahref from "../../Components/Link";
 import { useSearchParams } from "next/navigation";
-import Form from "../Data/cadastro";
+import Form from "../../Data/cadastro";
 import moment from "moment";
 
 const medico = [

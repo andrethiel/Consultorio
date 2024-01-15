@@ -1,7 +1,5 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Menu from "./Components/Menu";
-import { ChartPieIcon } from "@heroicons/react/24/outline";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,14 +12,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
       <body className={inter.className}>
-        <div className="flex">
-          <div className="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto border-r bg-gray-800">
-            <Menu />
+        <section className="h-screen">
+          <div className="container h-full py-24">
+            <div className="g-7 flex h-full flex-wrap items-center justify-center lg:justify-between">
+              <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
+                <img
+                  src="https://www.vinhobr.com.br/produtos/vinhobr.webp"
+                  className="mx-auto w-1/2"
+                />
+              </div>
+              {children}
+            </div>
           </div>
-          <div className="w-full h-full p-4 m-8 overflow-y-auto">
-            {children}
-          </div>
-        </div>
+        </section>
       </body>
     </html>
   );
