@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Consultorio.Negocio.Interfaces
 {
-    public interface IAgendaServices
+    public interface IConsultaService
     {
-        Task<IEnumerable<AgendaViewModels>> ListarAgenda();
+        Task Inserir(ConsultaViewModel model);
     }
 }

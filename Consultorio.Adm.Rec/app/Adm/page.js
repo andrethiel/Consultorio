@@ -2,54 +2,44 @@
 import moment from "moment";
 import Data from "../Components/Date";
 import Tabela from "../Components/Tabela";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { BuscarAgenda } from "@/Data/Controller/AgendaController";
 
 export default function Home() {
   const [hoje, setHoje] = useState(new Date());
+  const [pacientes, setPacientes] = useState([]);
+  const [errors, setErros] = useState([]);
+  const [typeAlert, settypeAlert] = useState("");
+
+  useEffect(() => {
+    Agenda();
+  }, []);
+
+  async function Agenda(data) {
+    const response = await BuscarAgenda(data);
+    if (response.sucesso) {
+      setPacientse(response.dados[0].dados);
+    } else {
+      if (response.errors.length > 1) {
+        setErros(response.errors);
+      } else {
+        setErros([response.message]);
+      }
+    }
+  }
 
   function DataMais() {
+    setPacientse([]);
     var outraData = new Date();
     outraData.setDate(hoje.getDate() + 1);
     setHoje(outraData);
+    Agenda(moment(outraData).format("DD/MM/YYYY"));
   }
   function DataMenos() {
     var outraData = new Date();
     outraData.setDate(hoje.getDate() - 1);
     setHoje(outraData);
   }
-
-  const paciente = [
-    {
-      Id: 1,
-      Medico: "Medico 1",
-      AtendimentoInicio: "09:00",
-      AtendimentoFinal: "15:00",
-      Intervalo: 30,
-      DataConsulta: "08/12/2023",
-      Pacientes: [
-        {
-          Id: 1,
-          Paciente: "paciente paciente paciente 1",
-          Horario: "09:00",
-        },
-      ],
-    },
-    {
-      Id: 2,
-      Medico: "Medico 3",
-      AtendimentoInicio: "09:00",
-      AtendimentoFinal: "18:00",
-      Intervalo: 10,
-      DataConsulta: "09/12/2023",
-      Pacientes: [
-        {
-          Id: 2,
-          Paciente: "paciente paciente paciente 1",
-          Horario: "09:10",
-        },
-      ],
-    },
-  ];
 
   return (
     <div className="flex flex-col gap-10">
@@ -60,11 +50,14 @@ export default function Home() {
       />
       <div className="flex gap-10">
         <div className="flex ">
-          {paciente.map((item) =>
-            item.DataConsulta == moment(hoje).format("DD/MM/YYYY") ? (
-              <Tabela data={item} />
-            ) : null
-          )}
+          {pacientes.length > 0 &&
+            pacientes.map((item) =>
+              item.dataConsulta == moment(hoje).format("DD/MM/YYYY") ? (
+                <Tabela data={item} />
+              ) : (
+                "Sem agendamentos"
+              )
+            )}
         </div>
       </div>
     </div>

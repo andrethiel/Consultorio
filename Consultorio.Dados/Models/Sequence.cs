@@ -1,5 +1,4 @@
-﻿using Consultorio.Dados.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Consultorio.Dados.Models
 {
-    public class Profissional : ModelBase
+    public class Sequence
     {
-        public string Name { get; set; }
-
+        public string Id { get; private set; }
     }
 }

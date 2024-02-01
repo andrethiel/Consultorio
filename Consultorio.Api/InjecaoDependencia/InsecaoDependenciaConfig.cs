@@ -12,9 +12,19 @@ namespace Consultorio.Api.InjecaoDependencia
         {
             services.AddScoped<IContext, Context>();
             services.AddScoped<IAgendaRepository, AgendaRespository>();
-            services.AddScoped<IAgendaServices, AgendaService>();
+            services.AddScoped<IAgendaService, AgendaService>();
             services.AddScoped<IHorarioRepository, HorarioRepository>();
             services.AddScoped<IHorarioService, HorarioService>();
+            services.AddScoped<ISequenceRepository, SequenceRespository>();
+            services.AddScoped<ISequenceService, SequenceService>();
+            services.AddScoped<IPacienteRepository, PacienteRespository>();
+            services.AddScoped<IPacienteService, PacienteServices>();
+            services.AddScoped<IMedicoRepository, MedicoRepository>();
+            services.AddScoped<IMedicoService, MedicoService>();
+            services.AddScoped<IProcedimentoRepository, ProcedimentoRepository>();
+            services.AddScoped<IProcedimentoService, ProcedimentoService>();
+            services.AddScoped<IConsultaRepository, ConsultaRepository>();
+            services.AddScoped<IConsultaService, ConsultaService>();
 
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

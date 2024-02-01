@@ -17,11 +17,22 @@ namespace Consultorio.Negocio.Services
         {
             _horarioRepository = horarioRepository;
         }
-        public async Task<IEnumerable<HorariosViewModels>> Horarios()
+        public async Task<IEnumerable<HorariosViewModel>> Horarios(int medico, string data)
         {
-            var retorno = await _horarioRepository.Horarios();
+            var horarios = await _horarioRepository.Horarios(medico);
+            var horariosAgenda = await _horarioRepository.HorariosAgenda(medico, data);
 
-            return retorno.Select(x => new HorariosViewModels(x.Id, x.Horario.ToString()));
+            if(horariosAgenda.Count > 0)
+            {
+                horarios.RemoveAll(x => horariosAgenda.Any(y => y.Id == x.Id));
+            }
+
+            return horarios.Select(x => new HorariosViewModel()
+            {
+                Id = x.Id,
+                Horario = x.Horario.ToString(@"hh\:mm"),
+                MedicoId = x.MedicoId
+            });
         }
     }
 }

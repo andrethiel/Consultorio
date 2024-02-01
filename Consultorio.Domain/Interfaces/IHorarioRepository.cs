@@ -9,6 +9,7 @@ namespace Consultorio.Domain.Interfaces
 {
     public interface IHorarioRepository
     {
-        Task<IEnumerable<Horarios>> Horarios();
+        Task<List<Horarios>> Horarios(int medico);
+        Task<List<Horarios>> HorariosAgenda(int medico, string data);
     }
 }

@@ -1,29 +1,34 @@
 "use client";
-import moment from "moment";
+
 import React, { useEffect, useState } from "react";
-import "moment/locale/pt-br";
 import Link from "next/link";
+import { Horarios } from "@/Utils/Horarios";
 
 function Tabela({ data }) {
-  const horario = [];
-
   const [tempo, settempo] = useState([]);
 
   useEffect(() => {
-    function horarios() {
-      const star = moment(data.AtendimentoInicio, "hh:mm").locale("pt-br");
-      const end = moment(data.AtendimentoFinal, "hh:mm").locale("pt-br");
-      for (
-        var t = moment(star);
-        t.isBefore(end);
-        t.add(data.Intervalo, data.Intervalo >= 60 ? "hour" : "minute")
-      ) {
-        horario.push(t.format("LT"));
-      }
-      settempo(horario);
-    }
-    horarios();
+    settempo(
+      Horarios(
+        data.medico.atendimentoInicio,
+        data.medico.atendimentoFinal,
+        data.medico.intervalo
+      )
+    );
   }, []);
+
+  function Row(horario) {
+    return (
+      <tr>
+        <td className="border px-4 py-2">{horario}</td>
+        {data.pacientes.map((pac) =>
+          pac.horario == horario ? (
+            <td className="border px-4 py-2">{pac.nomePaciente}</td>
+          ) : null
+        )}
+      </tr>
+    );
+  }
 
   return (
     <div>
@@ -32,29 +37,10 @@ function Tabela({ data }) {
           <thead className="border uppercase">
             <tr>
               <th className="px-4 py-2">Horario</th>
-              <th className=" px-4 py-2">{data.Medico}</th>
+              <th className=" px-4 py-2">{data.medico.nomeMedico}</th>
             </tr>
           </thead>
-          <tbody>
-            {tempo.map((item) => (
-              <tr>
-                <th className="border px-4 py-2">{item}</th>
-                {data.Pacientes.map((pac) =>
-                  pac.Horario == item ? (
-                    <th className="border px-4 py-2">{pac.Paciente}</th>
-                  ) : (
-                    <th className="border px-4 py-2 cursor-pointer">
-                      <Link
-                        href={`/Agenda?horario=${item}&data=${data.DataConsulta}&medico=${data.Id}`}
-                      >
-                        Horario livre
-                      </Link>
-                    </th>
-                  )
-                )}
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{tempo.map((item) => Row(item))}</tbody>
         </table>
       ) : (
         "Carregando"

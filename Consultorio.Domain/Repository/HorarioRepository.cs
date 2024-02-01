@@ -17,15 +17,24 @@ namespace Consultorio.Domain.Repository
         {
             this.context = context;
         }
-        public async Task<IEnumerable<Horarios>> Horarios()
+        public async Task<List<Horarios>> HorariosAgenda(int medico, string data)
         {
-            string sql = "select b.* from Agenda a right join Horarios b on a.Horario = b.ID and a.Dia = '18/11/2023' and a.profissional = 1 where a.Horario is null";
+            string sql = $"select H.* from Agenda A, Horarios H where A.MedicoId = {medico} and A.Horario = H.Id and A.Dia = '{data}'";
 
             var dados = await context.ExecuteList<Horarios>(sql);
 
             return dados;
         }
 
-        
+        public async Task<List<Horarios>> Horarios(int medico)
+        {
+            string sql = $"select * from Horarios where MedicoId = {medico}";
+
+            var dados = await context.ExecuteList<Horarios>(sql);
+
+            return dados;
+        }
+
+
     }
 }

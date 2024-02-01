@@ -8,6 +8,13 @@ namespace Consultorio.Dados.Context
 {
     public interface IContext
     {
-        Task<IEnumerable<T>> ExecuteList<T>(string sql);
+        Task<List<T>> ExecuteList<T>(string sql);
+
+        Task<T> ExecuteQuery<T>(string sql);
+
+        Task ExecuteSave<T>(string sql, T Parameters);
+        Task ExecuteUpdate<T>(string sql, T Parameters);
+
+        Task<int> ExecuteSaveScalar<T>(string sql, T Parameters);
     }
 }

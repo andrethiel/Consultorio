@@ -1,20 +1,43 @@
-"use client";
-import React, { useEffect } from "react";
+import React from "react";
 import Button from "../Button";
+import { useRouter } from "next/navigation";
 
-function GenericTable({ titulo, colunas, acao }) {
+function GenericTable({ titulo, colunas, objetos, acao }) {
+  const route = useRouter();
   const Row = ({ data }) => {
     const keys = Object.keys(data);
+
+    function linhas(key) {
+      for (var item of objetos) {
+        if (item == key) {
+          return (
+            <td
+              className="px-4 py-2 text-center"
+              onClick={() =>
+                item == "nomePaciente"
+                  ? route.push(`/Adm/Consulta?paciente=${data.guid}`)
+                  : null
+              }
+            >
+              {data[key]}
+            </td>
+          );
+        }
+      }
+    }
+
     return (
       <tr>
-        {keys.map((key) =>
-          key.toLowerCase() != "id" ? (
-            <td className="px-4 py-2 text-center">{data[key]}</td>
-          ) : null
-        )}
+        {keys.map((key) => linhas(key))}
         {typeof acao != "undefined" ? (
           <td className="px-4 py-2 text-center">
-            <Button onClick={() => console.log(data.Id)}>Editar</Button>
+            <Button
+              onClick={() =>
+                route.push(`/Adm/Pacientes/Cadastrar?paciente=${data.guid}`)
+              }
+            >
+              Editar
+            </Button>
           </td>
         ) : null}
       </tr>
@@ -22,7 +45,7 @@ function GenericTable({ titulo, colunas, acao }) {
   };
 
   return (
-    <table className="table-auto w-screen">
+    <table className="table-auto w-full">
       <thead>
         <tr>
           {titulo.map((item, index) => (

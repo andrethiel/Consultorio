@@ -10,5 +10,6 @@ namespace Consultorio.Dados.Models
     public class Horarios : ModelBase
     {
         public TimeSpan Horario { get; set; }
+        public int MedicoId { get; set; }
     }
 }

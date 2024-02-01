@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 function Input({
@@ -8,6 +9,7 @@ function Input({
   onBlur,
   icone,
   error,
+  disabled,
   ...res
 }) {
   return (
@@ -31,6 +33,7 @@ function Input({
           onChange={onChange}
           onBlur={onBlur}
           {...res}
+          disabled={disabled}
         />
       </div>
       {error && <span className="text-red-500 text-sm">{error}</span>}

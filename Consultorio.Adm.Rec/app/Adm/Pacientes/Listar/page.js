@@ -1,37 +1,50 @@
+"use client";
 import GenericTable from "@/app/Components/GenericTable";
 import Ahref from "@/app/Components/Link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { PacienteListar } from "@/Data/Controller/PacienteController";
 
-const paciente = [
-  {
-    Id: 1,
-    Paciente: "paciente 1",
-    dataNascimento: "29/06/1991",
-  },
-  {
-    Id: 2,
-    Paciente: "paciente 2",
-    dataNascimento: "29/06/1991",
-  },
-];
+function Lista() {
+  useEffect(() => {
+    ListarTodos();
+  }, []);
 
-function Listar() {
+  async function ListarTodos() {
+    const response = await PacienteListar();
+    if (response.sucesso) {
+      setData(response.dados.dados);
+    } else {
+      if (response.errors.length > 1) {
+        setErros(response.errors);
+      } else {
+        setErros([response.message]);
+      }
+    }
+  }
+
+  const [errors, setErros] = useState([]);
+  const [typeAlert, settypeAlert] = useState("");
+  const [data, setData] = useState([]);
   return (
     <>
       <div className="mt-24">
-        <div className="w-full flex flex-col gap-2 md:flex-row md:justify-between lg:justify-between xl:flex-row xl:justify-between">
+        <div className="flex flex-col gap-2 md:flex-row md:justify-between lg:justify-between xl:flex-row xl:justify-between">
           <span className="text-2xl">Lista de pacientes</span>
-          <Ahref link={"/Pacientes/Cadastrar"}>Cadastrar paciente</Ahref>
+          <Ahref link={"/Adm/Pacientes/Cadastrar"}>Cadastrar paciente</Ahref>
         </div>
       </div>
       <div className="mt-5 flex">
-        <GenericTable
-          titulo={["Nome Paciente", "Data de nascimento"]}
-          colunas={paciente}
-        />
+        {data && (
+          <GenericTable
+            titulo={["Nome Paciente", "Data de nascimento", "Nome da Mãe"]}
+            colunas={data}
+            objetos={["nomePaciente", "dataNacimento", "nomeMae"]}
+            acao={true}
+          />
+        )}
       </div>
     </>
   );
 }
 
-export default Listar;
+export default Lista;

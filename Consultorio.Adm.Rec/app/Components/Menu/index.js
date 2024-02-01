@@ -15,7 +15,7 @@ function Menu() {
         <ul className="space-y-2 font-medium ">
           <li>
             <a
-              href="/"
+              href="/Adm"
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <HomeIcon className="h-6 w-6" aria-hidden="true" />
@@ -24,7 +24,7 @@ function Menu() {
           </li>
           <li>
             <a
-              href="/Agenda"
+              href="/Adm/Consulta"
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <BookOpenIcon className="h-6 w-6" aria-hidden="true" />
@@ -33,7 +33,7 @@ function Menu() {
           </li>
           <li>
             <a
-              href="Pacientes/Listar"
+              href="/Adm/Pacientes/Listar"
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <UserIcon className="h-6 w-6" aria-hidden="true" />

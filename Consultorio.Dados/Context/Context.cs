@@ -23,11 +23,43 @@ namespace Consultorio.Dados.Context
         {
 
         }
-        public async Task<IEnumerable<T>> ExecuteList<T>(string sql)
+        public async Task<List<T>> ExecuteList<T>(string sql)
         {
             using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("ConexaoPrincipal"));
 
             var dados = await connection.QueryAsync<T>(sql, null, commandType: CommandType.Text);
+
+            return dados.ToList();
+        }
+
+        public async Task<T> ExecuteQuery<T>(string sql)
+        {
+            using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("ConexaoPrincipal"));
+
+            var dados = await connection.QueryAsync<T>(sql, null, commandType: CommandType.Text);
+
+            return dados.FirstOrDefault();
+        }
+
+        public async Task ExecuteSave<T>(string sql, T Parameters)
+        {
+            using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("ConexaoPrincipal"));
+
+            await connection.ExecuteAsync(sql, Parameters, commandType: CommandType.Text);
+        }
+
+        public async Task ExecuteUpdate<T>(string sql, T Parameters)
+        {
+            using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("ConexaoPrincipal"));
+
+            await connection.ExecuteAsync(sql, Parameters, commandType: CommandType.Text);
+        }
+
+        public async Task<int> ExecuteSaveScalar<T>(string sql, T Parameters)
+        {
+            using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("ConexaoPrincipal"));
+            
+            var dados = await connection.ExecuteScalarAsync<int>(sql, Parameters, commandType: CommandType.Text);
 
             return dados;
         }
